@@ -43,24 +43,26 @@
   <meta name="theme-color" content="#3f51b5">
 
   <script>
-    var rootPath = '/';
-    var uri = window.location.href;
-    var reg = /(?:(?:.*\.)?cdn.byu.edu)(\/\w\/(?:latest|experimental\/.*?\/))/;
+    (function () {
+      var rootPath = '/';
+      var uri = window.location.href;
+      var reg = /(?:(?:\w+\.)?cdn.byu.edu)(\/.*?\/(?:latest|experimental\/.*?)\/)/;
 
-    var match = uri.match(reg);
-    if (match) {
-      rootPath = match[1];
-    }
-    window.Polymer = {rootPath: rootPath};
+      var match = uri.match(reg);
+      if (match) {
+        rootPath = match[1];
+      }
+      window.Polymer = {rootPath: rootPath};
 
-    // Load and register pre-caching Service Worker
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function () {
-        navigator.serviceWorker.register('service-worker.js', {
-          scope: Polymer.rootPath,
+      // Load and register pre-caching Service Worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('service-worker.js', {
+            scope: Polymer.rootPath,
+          });
         });
-      });
-    }
+      }
+    })();
   </script>
 
   <link type="text/css" rel="stylesheet" href="//cloud.typography.com/75214/6517752/css/fonts.css" media="all"/>
