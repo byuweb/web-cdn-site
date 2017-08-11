@@ -8,7 +8,10 @@
     "lint": "npm run lint:javascript && polymer lint",
     "lint:javascript": "eslint . --ext js,html --ignore-path .gitignore",
     "test": "polymer test",
-    "test:integration": "polymer build # test that psk builds without error with the CLI"
+    "test:integration": "polymer build # test that psk builds without error with the CLI",
+    "clean-dist": "del dist && make-dir dist",
+    "copy-build": "cp -R build/es5-bundled/* dist/",
+    "build": "polymer build && npm run clean-dist && npm run copy-build"
   },
   "repository": {
     "type": "git",
@@ -22,9 +25,12 @@
   "homepage": "https://github.com/byuweb/web-cdn-site#readme",
   "devDependencies": {
     "bower": "^1.8.0",
+    "cpy-cli": "^1.0.1",
+    "del-cli": "^1.1.0",
     "eslint": "^3.19.0",
     "eslint-config-google": "^0.7.0",
     "eslint-plugin-html": "^2.0.0",
+    "make-dir-cli": "^1.0.0",
     "polymer-cli": "^1.4.1"
   }
 }

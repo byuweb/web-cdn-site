@@ -27,7 +27,6 @@
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="my-icons.html">
 
 <link rel="import" href="home-view.html">
 <link rel="lazy-import" href="docs-view.html">
@@ -59,6 +58,9 @@
       .content {
         flex-grow: 1;
         width: 100%;
+      }
+
+      .content > :not(.full-width) {
         max-width: 1200px;
       }
 
@@ -86,7 +88,7 @@
       attr-for-selected="name"
       fallback-selection="404"
       role="main">
-      <cdn-home-view name="home"></cdn-home-view>
+      <cdn-home-view name="home" class="full-width"></cdn-home-view>
       <cdn-docs-view name="docs"></cdn-docs-view>
       <cdn-404-view name="404"></cdn-404-view>
     </iron-pages>
