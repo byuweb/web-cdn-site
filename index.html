@@ -25,18 +25,6 @@
   <title>Web Community CDN</title>
   <meta name="description" content="My App description">
 
-  <!--
-    The `<base>` tag below is present to support two advanced deployment options:
-    1) Differential serving. 2) Serving from a non-root path.
-
-    Instead of manually editing the `<base>` tag yourself, you should generally either:
-    a) Add a `basePath` property to the build configuration in your `polymer.json`.
-    b) Use the `--base-path` command-line option for `polymer build`.
-
-    Note: If you intend to serve from a non-root path, see [polymer-root-path] below.
-  -->
-  <base href="/">
-
   <link rel="icon" href="https://cdn.byu.edu/shared-icons/latest/favicons/favicon.ico">
 
   <!-- See https://goo.gl/qRE0vM -->
@@ -44,15 +32,18 @@
 
   <script>
     (function () {
-      var rootPath = '/';
-      var uri = window.location.href;
-      var reg = /(?:(?:\w+\.)?cdn.byu.edu)(\/.*?\/(?:latest|experimental\/.*?)\/)/;
+      let rootPath = '/';
+      const CDN_PATH_REGEX = /(?:(?:\w+\.)?cdn.byu.edu)(\/.*?\/(?:latest|experimental\/.*?)\/)/;
 
-      var match = uri.match(reg);
+      let match = window.location.href.match(CDN_PATH_REGEX);
       if (match) {
         rootPath = match[1];
       }
       window.Polymer = {rootPath: rootPath};
+
+      let base = document.createElement('base');
+      base.href = rootPath;
+      document.head.appendChild(base);
 
       // Load and register pre-caching Service Worker
       if ('serviceWorker' in navigator) {
