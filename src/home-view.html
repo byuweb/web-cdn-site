@@ -1,0 +1,35 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+
+<script async src="https://cdn.byu.edu/byu-hero-banner/latest/byu-hero-banner.min.js"></script>
+
+<dom-module id="cdn-home-view">
+  <template>
+    <link href="https://cdn.byu.edu/byu-hero-banner/latest/byu-hero-banner.min.css" rel="stylesheet" />
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+      #hero {
+        width: 100%;
+        position: relative;
+      }
+    </style>
+
+    <byu-hero-banner id="hero" image-source="[[rootPath]]images/eiffel-tower-plans.jpg" class="full-screen light-image">
+      <span slot="headline">Web Community CDN</span>
+      <span slot="intro-text">Hosting stuff stuff stuff</span>
+    </byu-hero-banner>
+
+  </template>
+
+  <script>
+    class CdnHomeView extends Polymer.Element {
+      static get is() {
+        return 'cdn-home-view';
+      }
+    }
+
+    window.customElements.define(CdnHomeView.is, CdnHomeView);
+  </script>
+</dom-module>

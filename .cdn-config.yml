@@ -1,0 +1,7 @@
+---
+name: Web Community CDN Site
+description: Website for the web community CDN
+resources:
+entrypoints:
+  index.html: Main page
+docs: https://github.com/byuweb/web-cdn

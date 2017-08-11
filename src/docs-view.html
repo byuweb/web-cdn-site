@@ -1,0 +1,25 @@
+link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="cdn-docs-view">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+            }
+        </style>
+
+      <h1>Docs</h1>
+
+    </template>
+
+    <script>
+        class CdnDocsView extends Polymer.Element {
+            static get is() {
+                return 'cdn-docs-view';
+            }
+        }
+
+        window.customElements.define(CdnDocsView.is, CdnDocsView);
+    </script>
+</dom-module>
