@@ -42,7 +42,7 @@
   <script>
     (function () {
       let rootPath = '/';
-      const CDN_PATH_REGEX = /(?:(?:\w+\.)?cdn.byu.edu)(\/.*?\/(?:latest|experimental\/.*?)\/)/;
+      const CDN_PATH_REGEX = /(?:(?:\w+\.)?cdn.byu.edu)(\/.*?\/(?:.*?\/|experimental\/.*?\/))/;
 
       let match = window.location.href.match(CDN_PATH_REGEX);
       if (match) {
