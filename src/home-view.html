@@ -31,12 +31,19 @@
         width: 100%;
         position: relative;
       }
+      .main-content {
+        @apply --view-root;
+      }
     </style>
 
     <byu-hero-banner id="hero" image-source="[[rootPath]]images/eiffel-tower-plans.jpg" class="full-screen light-image">
       <span slot="headline">Web Community CDN</span>
       <span slot="intro-text">Hosting stuff stuff stuff</span>
     </byu-hero-banner>
+
+    <div class="main-content">
+      texty text text text
+    </div>
 
   </template>
 

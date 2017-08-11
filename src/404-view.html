@@ -16,14 +16,15 @@
   -->
 
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
 
 <dom-module id="cdn-404-view">
   <template>
-    <style>
+    <style include="shared-styles">
       :host {
         display: block;
 
-        padding: 10px 20px;
+        @apply --view-root;
       }
     </style>
 

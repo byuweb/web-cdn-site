@@ -27,6 +27,7 @@
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/shadycss/apply-shim.html">
 
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="home-view.html">
@@ -38,7 +39,7 @@
 <dom-module id="cdn-app">
   <template>
     <link rel="stylesheet" href="https://cdn.byu.edu/byu-theme-components/latest/byu-theme-components.min.css">
-    <style>
+    <style include="shared-styles">
       :host {
         --app-primary-color: #4285f4;
         --app-secondary-color: black;
@@ -59,10 +60,6 @@
       .content {
         flex-grow: 1;
         width: 100%;
-      }
-
-      .content > :not(.full-width) {
-        max-width: 1200px;
       }
 
     </style>
