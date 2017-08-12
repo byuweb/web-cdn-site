@@ -1,7 +1,7 @@
 {
   "src/cdn-app.html": {},
   "src/docs-view.html": {},
-  "src/libraries/libs-view.html": {},
+  "src/libs-view.html": {},
   "src/about-view.html": {},
   "src/status-view.html": {},
   "src/404-view.html": {}
