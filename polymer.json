@@ -3,6 +3,9 @@
   "shell": "src/cdn-app.html",
   "fragments": [
     "src/docs-view.html",
+    "src/libraries/libs-view.html",
+    "src/about-view.html",
+    "src/status-view.html",
     "src/404-view.html"
   ],
   "sources": [

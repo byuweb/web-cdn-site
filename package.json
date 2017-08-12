@@ -11,7 +11,8 @@
     "test:integration": "polymer build # test that psk builds without error with the CLI",
     "clean-dist": "del dist && make-dir dist",
     "copy-build": "cp -R build/es5-bundled/* dist/",
-    "build": "polymer build && npm run clean-dist && npm run copy-build"
+    "build": "polymer build && npm run clean-dist && npm run copy-build",
+    "start": "polymer serve"
   },
   "repository": {
     "type": "git",

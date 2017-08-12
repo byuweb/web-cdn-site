@@ -1,3 +1,4 @@
+link rel="import" href="../bower_components/polymer/polymer-element.html">
 <!--
   ~  @license
   ~    Copyright 2017 Brigham Young University
@@ -15,28 +16,29 @@
   ~    limitations under the License.
   -->
 
-<link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="shared-styles.html">
 
-<!-- shared styles for all views -->
-<dom-module id="shared-styles">
+<dom-module id="cdn-about-view">
   <template>
-    <style>
-      h1, h2, h3, h4, h5, h6 {
-        font-family: "Vitesse A", "Vitesse B", Georgia, serif;
-        color: #002E5D;
-      }
+    <style include="shared-styles">
+      :host {
+        display: block;
 
-      :root {
-        --view-root: {
-          max-width: 1200px;
-          width: 100vw;
-          padding: 8px;
-          box-sizing: border-box;
-          margin: 0 auto;
-        };
+        @apply --view-root;
       }
-
     </style>
+
+    <h1>About</h1>
+
   </template>
+
+  <script>
+    class AboutView extends Polymer.Element {
+      static get is() {
+        return 'cdn-about-view';
+      }
+    }
+
+    window.customElements.define(AboutView.is, AboutView);
+  </script>
 </dom-module>

@@ -16,33 +16,140 @@
   -->
 
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+
 <link rel="import" href="shared-styles.html">
 
 <script async src="https://cdn.byu.edu/byu-hero-banner/latest/byu-hero-banner.min.js"></script>
+<script async src="https://cdn.byu.edu/byu-card/latest/byu-card.min.js"></script>
 
 <dom-module id="cdn-home-view">
   <template>
-    <link href="https://cdn.byu.edu/byu-hero-banner/latest/byu-hero-banner.min.css" rel="stylesheet" />
+    <link href="https://cdn.byu.edu/byu-hero-banner/latest/byu-hero-banner.min.css" rel="stylesheet"/>
+    <link href="https://cdn.byu.edu/byu-card/latest/byu-card.min.css" rel="stylesheet"/>
     <style include="shared-styles">
       :host {
         display: block;
       }
+
       #hero {
         width: 100%;
         position: relative;
       }
+
+      .search-wrapper {
+        margin-top: 16px;
+        font-size: 32px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+      }
+
+      .search-wrapper > * {
+        transition: background-color 0.25s, border-color 0.25s, color 0.25s;
+        background-color: rgba(266, 256, 256, 0.25);
+        border: 2px solid lightgray;
+        height: 48px;
+        box-sizing: border-box;
+        outline: none;
+      }
+
+      .search {
+        font-size: inherit;
+        border-right: none;
+        padding-left: 8px;
+        padding-right: 8px;
+        color: #002e5d;
+      }
+
+      .search:not(:focus)::placeholder {
+        color: #8e8e8e;
+        /*text-align: center;*/
+      }
+
+      .search-button {
+        margin: 0;
+        width: 48px;
+        box-sizing: border-box;
+        border-left: none;
+        color: #8e8e8e;
+        transition: background-color 0.25s, border-color 0.25s;
+      }
+
+      .search:focus, .search:focus + .search-button, .search:not(:placeholder-shown), .search:not(:placeholder-shown) + .search-button {
+        background-color: white;
+        /*border-color: #0057bb;*/
+        border-color: #002e5d;
+      }
+
+      .search:not(:placeholder-shown) + .search-button {
+        color: #002e5d;
+      }
+
+      .search-button:focus {
+        background-color: lightgray !important;
+      }
+
       .main-content {
         @apply --view-root;
       }
+
+      .cards {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .cards > * {
+
+      }
+
     </style>
 
     <byu-hero-banner id="hero" image-source="[[rootPath]]images/eiffel-tower-plans.jpg" class="full-screen light-image">
       <span slot="headline">Web Community CDN</span>
-      <span slot="intro-text">Easy, fast, reliable static content hosting for all of BYU</span>
+      <div slot="intro-text">
+        <div>Fast, easy, reliable static content hosting for all of BYU.</div>
+        <div class="search-wrapper">
+          <input class="search" type="search" placeholder="Search CDN"/>
+          <button class="search-button">
+            <iron-icon icon="search"></iron-icon>
+          </button>
+        </div>
+      </div>
     </byu-hero-banner>
 
     <div class="main-content">
-      texty text text text
+      <style>
+        .popular-libraries > h1 {
+          text-align: center;
+        }
+
+        .popular-libraries byu-card .image {
+
+        }
+      </style>
+      <div class="popular-libraries">
+        <h1>Popular Libraries</h1>
+        <div class="cards">
+          <byu-card>
+            <div class="image" style="background-color: #002e5d;">
+              <img src="https://cdn.byu.edu/shared-icons/latest/logos/monogram-white.svg" />
+            </div>
+            <h2><code>byu-theme-components</code></h2>
+          </byu-card>
+          <byu-card>
+            <img class="image"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/7_playing_cards.jpg/1200px-7_playing_cards.jpg">
+            <h2><code>byu-card</code></h2>
+          </byu-card>
+          <byu-card>
+            <img class="image" src="http://opelikaobserver.com/wp-content/uploads/2017/05/2.jpg"/>
+            <h2><code>byu-news-components</code></h2>
+          </byu-card>
+        </div>
+      </div>
     </div>
 
   </template>
