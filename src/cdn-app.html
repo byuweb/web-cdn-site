@@ -26,6 +26,7 @@
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/shadycss/apply-shim.html">
 
@@ -38,13 +39,14 @@
 <link rel="lazy-import" href="404-view.html">
 
 <script async src="https://cdn.byu.edu/byu-theme-components/latest/byu-theme-components.min.js"></script>
+<script async src="https://cdn.byu.edu/byu-card/latest/byu-card.min.js"></script>
 
 <dom-module id="cdn-app">
   <template>
     <link rel="stylesheet" href="https://cdn.byu.edu/byu-theme-components/latest/byu-theme-components.min.css">
     <style include="shared-styles">
       :host {
-        --app-primary-color: #4285f4;
+        --app-primary-color: #002e5d;
         --app-secondary-color: black;
 
         display: flex;
@@ -74,6 +76,8 @@
       data="{{routeData}}"
       tail="{{subroute}}"></app-route>
 
+    <iron-ajax auto url="https://dev.cdn.byu.edu/manifest.json" last-response="{{cdnManifest}}" loading="{{manifestLoading}}"></iron-ajax>
+
     <byu-header>
       <span slot="site-title">Web Community CDN</span>
       <byu-menu id="menu" slot="nav">
@@ -96,11 +100,11 @@
       attr-for-selected="name"
       fallback-selection="404"
       role="main">
-      <cdn-home-view name="home" class="full-width"></cdn-home-view>
+      <cdn-home-view name="home" cdn-manifest="[[cdnManifest]]" cdn-manifest-loading="[[manifestLoading]]" class="full-width"></cdn-home-view>
       <cdn-docs-view name="docs"></cdn-docs-view>
-      <cdn-libs-view name="libs"></cdn-libs-view>
+      <cdn-libs-view name="libs" cdn-manifest="[[cdnManifest]]" cdn-manifest-loading="[[manifestLoading]]"></cdn-libs-view>
       <cdn-about-view name="about"></cdn-about-view>
-      <cdn-status-view name="status"></cdn-status-view>
+      <cdn-status-view name="status" cdn-manifest="[[cdnManifest]]" cdn-manifest-loading="[[manifestLoading]]"></cdn-status-view>
       <cdn-404-view name="404"></cdn-404-view>
     </iron-pages>
 
@@ -144,19 +148,12 @@
       }
 
       _routePageChanged(page) {
-        // If no page was found in the route data, page will be an empty string.
-        // Default to 'home' in that case.
         this.page = page || 'home';
-
-        // Close a non-persistent drawer when the page & route are changed.
-//        if (!this.$.drawer.persistent) {
-//          this.$.drawer.close();
-//        }
       }
 
       _pageChanged(page) {
         // Load page import on demand. Show 404 page if fails
-        var resolvedPageUrl = this.resolveUrl(page + '-view.html');
+        let resolvedPageUrl = this.resolveUrl(page + '-view.html');
         Polymer.importHref(
           resolvedPageUrl,
           null,
