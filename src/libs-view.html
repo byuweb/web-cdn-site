@@ -1,4 +1,3 @@
-link rel="import" href="../bower_components/polymer/polymer-element.html">
 <!--
   ~  @license
   ~    Copyright 2017 Brigham Young University
@@ -16,7 +15,12 @@ link rel="import" href="../bower_components/polymer/polymer-element.html">
   ~    limitations under the License.
   -->
 
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="shared-styles.html">
+
+<link rel="import" href="libraries/lib-list-view.html">
 
 <dom-module id="cdn-libs-view">
   <template>
@@ -28,52 +32,30 @@ link rel="import" href="../bower_components/polymer/polymer-element.html">
         @apply --view-root;
       }
 
-      .libraries {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-between;
-      }
-
-      .lib-card {
-        box-shadow: 0 3px 12px rgba(0, 0, 0, .2);
-        margin: 8px;
-        width: calc(33% - 16px);
-        display: flex;
-        flex-direction: row;
-      }
-
-      .lib-image {
-        width: 100px;
-        height: 100px;
-        background-color: green;
-        flex-shrink: 0;
-      }
-
-      .lib-body {
-        padding: 8px;
-      }
-
-      .lib-id {
-        font-size: 1.5em;
-      }
     </style>
 
-    <h1>CDN Libraries</h1>
+    <app-route
+      route="{{route}}"
+      pattern="/:libId"
+      data="{{routeData}}"
+      active="{{hasLibrary}}"
+      tail="{{subRoute}}"></app-route>
 
-    <div class="libraries">
-       <dom-repeat items="[[libraries]]">
-        <template>
-          <byu-card style="height: 350px;">
-            <div class="image" style="background-color: green; height: 200px; width: 100%;">
+    <dom-if if="[[!hasLibrary]]">
+      <template>
+        <div>
+          <cdn-lib-list-view cdn-manifest="[[cdnManifest]]"
+          ></cdn-lib-list-view>
+        </div>
+      </template>
+    </dom-if>
 
-            </div>
-            <h2>[[item.id]]</h2>
-            <div>[[item.definition.description]]</div>
-          </byu-card>
-        </template>
-      </dom-repeat>
-    </div>
+    <dom-if if="[[hasLibrary]]">
+      <template>
+        <div>[[routeData.libId]]</div>
+      </template>
+    </dom-if>
+
 
   </template>
 
@@ -92,26 +74,13 @@ link rel="import" href="../bower_components/polymer/polymer-element.html">
             type: Object,
             value: false
           },
-          libraries: {
-            type: Array,
-            computed: '_extractLibraries(cdnManifest)'
+          route: {
+            type: Object,
+            notify: true
           }
         }
       }
 
-      _extractLibraries(manifest) {
-        if (!manifest) {
-          return [];
-        }
-        return Object.getOwnPropertyNames(manifest.libraries)
-          .sort()
-          .map(id => {
-            return {
-              id,
-              definition: manifest.libraries[id]
-            };
-          });
-      }
     }
 
     window.customElements.define(LibsView.is, LibsView);

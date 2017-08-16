@@ -72,20 +72,20 @@
     <app-location use-hash-as-path route="{{route}}" ></app-location>
     <app-route
       route="{{route}}"
-      pattern=":page"
+      pattern="/:page"
       data="{{routeData}}"
-      tail="{{subroute}}"></app-route>
+      tail="{{subRoute}}"></app-route>
 
     <iron-ajax auto url="https://dev.cdn.byu.edu/manifest.json" last-response="{{cdnManifest}}" loading="{{manifestLoading}}"></iron-ajax>
 
     <byu-header>
       <span slot="site-title">Web Community CDN</span>
       <byu-menu id="menu" slot="nav">
-        <a name="home" href="#home">Home</a>
-        <a name="libs" href="#libs">Libraries</a>
-        <a name="docs" href="#docs">Documentation</a>
-        <a name="about" href="#about">About</a>
-        <a name="status" href="#status">Status</a>
+        <a name="home" href="#/home">Home</a>
+        <a name="libs" href="#/libs">Libraries</a>
+        <a name="docs" href="#/docs">Documentation</a>
+        <a name="about" href="#/about">About</a>
+        <a name="status" href="#/status">Status</a>
       </byu-menu>
       <dom-if if="[[_showSearch(page)]]">
         <template>
@@ -102,7 +102,7 @@
       role="main">
       <cdn-home-view name="home" cdn-manifest="[[cdnManifest]]" cdn-manifest-loading="[[manifestLoading]]" class="full-width"></cdn-home-view>
       <cdn-docs-view name="docs"></cdn-docs-view>
-      <cdn-libs-view name="libs" cdn-manifest="[[cdnManifest]]" cdn-manifest-loading="[[manifestLoading]]"></cdn-libs-view>
+      <cdn-libs-view name="libs" cdn-manifest="[[cdnManifest]]" cdn-manifest-loading="[[manifestLoading]]" route="{{subRoute}}"></cdn-libs-view>
       <cdn-about-view name="about"></cdn-about-view>
       <cdn-status-view name="status" cdn-manifest="[[cdnManifest]]" cdn-manifest-loading="[[manifestLoading]]"></cdn-status-view>
       <cdn-404-view name="404"></cdn-404-view>
@@ -137,6 +137,25 @@
         return [
           '_routePageChanged(routeData.page)',
         ];
+      }
+
+      constructor() {
+        super();
+        this._navigateToLibBound = this._navigateToLib.bind(this);
+      }
+
+      connectedCallback() {
+        super.connectedCallback();
+        this.addEventListener('library-selected', this._navigateToLibBound);
+      }
+
+      disconnectedCallback() {
+        super.disconnectedCallback();
+        this.removeEventListener('library-selected', this._navigateToLibBound);
+      }
+
+      _navigateToLib(event) {
+        this.set('route.path', '/libs/' + event.detail.id);
       }
 
       search(event) {

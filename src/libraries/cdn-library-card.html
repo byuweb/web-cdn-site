@@ -1,0 +1,114 @@
+<!--
+  ~  @license
+  ~    Copyright 2017 Brigham Young University
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/polymer/lib/mixins/gesture-event-listeners.html">
+
+<link rel="import" href="../shared-styles.html">
+
+<dom-module id="cdn-library-card">
+  <template>
+    <link href="https://cdn.byu.edu/byu-card/latest/byu-card.min.css" rel="stylesheet"/>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        width: var(--cdn-library-card-width, 100%);
+        margin: 8px;
+      }
+      .card {
+        width: 100%;
+        height: 100%;
+        display: block;
+        --paper-card-header-text: {
+          font-family: "Vitesse A", "Vitesse B", Georgia, serif;
+          color: #002E5D;
+        };
+        --paper-card-header-image: {
+          max-height: 200px;
+        }
+      }
+
+      .image {
+        height: calc(var(--cdn-library-card-width, 100%) * 2 / 3);
+        width: var(--cdn-library-card-width, 100%);
+        background-color: green;
+      }
+
+      .card-content {
+        min-height: 125px;
+      }
+
+      .stats {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        color: gray;
+      }
+    </style>
+
+    <paper-card id="card" class="card"
+                image="images/green.png"
+                on-mouseenter="_hoverCard"
+                on-mouseleave="_unhoverCard"
+                on-tap="_tap"
+    >
+      <div class="card-content">
+        <h2 class="id">[[libraryId]]</h2>
+        <div class="description">
+          [[library.description]]
+        </div>
+      </div>
+      <div class="card-actions stats">
+        <span>1.5M Weekly Downloads</span>
+        <span>30 Stars</span>
+      </div>
+    </paper-card>
+  </template>
+
+  <script>
+    class LibraryCard extends Polymer.GestureEventListeners(Polymer.Element) {
+      static get properties() {
+        return {
+          libraryId: {
+            type: String,
+          },
+          library: {
+            type: Object,
+          },
+        }
+      }
+      static get is() {
+        return 'cdn-library-card';
+      }
+      _hoverCard(event) {
+        this.$.card.elevation = 4;
+      }
+      _unhoverCard(event) {
+        this.$.card.elevation = 1;
+      }
+      _tap(event) {
+        this.dispatchEvent(new CustomEvent('library-selected', {detail: {
+          id: this.libraryId,
+          library: this.library
+        }, composed: true, bubbles: true}))
+      }
+    }
+
+    window.customElements.define(LibraryCard.is, LibraryCard);
+  </script>
+</dom-module>
