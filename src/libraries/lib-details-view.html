@@ -182,8 +182,7 @@
         </div>
       </div>
       <div class="readme">
-        <h2>README</h2>
-        <iron-ajax auto url="https://raw.githubusercontent.com/byuweb/byu-theme-components/master/README.md" handle-as="text" last-response="{{componentReadme}}"></iron-ajax>
+        <iron-ajax auto url="[[_readmeUrl(library)]]" handle-as="text" last-response="{{componentReadme}}"></iron-ajax>
         <marked-element markdown="[[componentReadme]]">
           <div slot="markdown-html"></div>
         </marked-element>
@@ -205,6 +204,11 @@
             notify: true,
           },
         }
+      }
+
+      _readmeUrl(lib) {
+        let src = lib.source.replace('github:', '');
+        return `https://raw.githubusercontent.com/${src}/master/README.md`
       }
     }
 
