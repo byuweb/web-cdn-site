@@ -21,17 +21,16 @@
 <link rel="import" href="shared-styles.html">
 
 <link rel="import" href="libraries/lib-list-view.html">
+<link rel="import" href="libraries/lib-details-view.html">
 
 <dom-module id="cdn-libs-view">
   <template>
-    <link href="https://cdn.byu.edu/byu-card/latest/byu-card.min.css" rel="stylesheet"/>
     <style include="shared-styles">
       :host {
         display: block;
 
         @apply --view-root;
       }
-
     </style>
 
     <app-route
@@ -44,15 +43,16 @@
     <dom-if if="[[!hasLibrary]]">
       <template>
         <div>
-          <cdn-lib-list-view cdn-manifest="[[cdnManifest]]"
-          ></cdn-lib-list-view>
+          <cdn-lib-list-view></cdn-lib-list-view>
         </div>
       </template>
     </dom-if>
 
     <dom-if if="[[hasLibrary]]">
       <template>
-        <div>[[routeData.libId]]</div>
+        <cdn-lib-details-view
+          library-id=[[routeData.libId]]
+        ></cdn-lib-details-view>
       </template>
     </dom-if>
 
@@ -77,8 +77,20 @@
           route: {
             type: Object,
             notify: true
+          },
+          selectedLibrary: {
+            type: String,
+            computed: '_findLibrary(cdnManifest, routeData.libId)'
           }
         }
+      }
+
+      _findLibrary(manifest, selectedLibraryId) {
+        console.log('_findLibrary', selectedLibraryId);
+        if (!selectedLibraryId || !manifest) {
+          return null;
+        }
+        return manifest.libraries[selectedLibraryId];
       }
 
     }

@@ -19,6 +19,7 @@
 <link rel="import" href="../shared-styles.html">
 
 <link rel="import" href="cdn-library-card.html">
+<link rel="import" href="../cdn-manifest-service.html">
 
 <dom-module id="cdn-lib-list-view">
   <template>
@@ -41,16 +42,16 @@
         /*height: 350px;*/
       }
     </style>
+    <cdn-manifest-loader libraries="{{libraries}}"></cdn-manifest-loader>
 
     <h1>CDN Libraries</h1>
 
     <div class="libraries">
       <dom-repeat items="[[libraries]]">
         <template>
-
           <cdn-library-card
             library-id="[[item.id]]"
-            library="[[item.definition]]"
+            library="[[item]]"
           ></cdn-library-card>
         </template>
       </dom-repeat>
@@ -66,29 +67,9 @@
 
       static get properties() {
         return {
-          cdnManifest: {
-            type: Object
-          },
-          libraries: {
-            type: Array,
-            computed: '_extractLibraries(cdnManifest)'
-          },
         }
       }
 
-      _extractLibraries(manifest) {
-        if (!manifest) {
-          return [];
-        }
-        return Object.getOwnPropertyNames(manifest.libraries)
-          .sort()
-          .map(id => {
-            return {
-              id,
-              definition: manifest.libraries[id]
-            };
-          });
-      }
     }
 
     window.customElements.define(LibsListView.is, LibsListView);

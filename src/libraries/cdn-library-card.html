@@ -23,7 +23,6 @@
 
 <dom-module id="cdn-library-card">
   <template>
-    <link href="https://cdn.byu.edu/byu-card/latest/byu-card.min.css" rel="stylesheet"/>
     <style include="shared-styles">
       :host {
         display: block;
@@ -41,12 +40,6 @@
         --paper-card-header-image: {
           max-height: 200px;
         }
-      }
-
-      .image {
-        height: calc(var(--cdn-library-card-width, 100%) * 2 / 3);
-        width: var(--cdn-library-card-width, 100%);
-        background-color: green;
       }
 
       .card-content {
