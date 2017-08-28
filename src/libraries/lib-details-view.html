@@ -16,6 +16,7 @@
   -->
 
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/plastic-aspect-ratio/plastic-aspect-ratio.html">
 <link rel="import" href="../../bower_components/marked-element/marked-element.html">
 <link rel="import" href="../../bower_components/polymer/lib/elements/dom-repeat.html">
@@ -25,6 +26,7 @@
 
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../icons.html">
+<link rel="import" href="demo-popup.html">
 
 
 <dom-module id="cdn-lib-details-view">
@@ -61,7 +63,7 @@
 
       .readme {
         flex-grow: 1;
-        padding: 8px;
+        padding: 8px 16px;
       }
 
       .readme [slot="markdown-html"] > h1:first-child {
@@ -126,6 +128,18 @@
     </style>
 
     <cdn-library-loader library-id="[[libraryId]]" library="{{library}}"></cdn-library-loader>
+
+    <app-route
+      route="{{route}}"
+      pattern="/demo"
+      data="{{routeData}}"
+      active="{{showDemo}}"
+      tail="{{subRoute}}"></app-route>
+
+      [[showDemo]]
+
+    <cdn-demo-popup opened="[[showDemo]]" url="http://2017-components-demo.cdn.byu.edu/"></cdn-demo-popup>
+
     <div class="header" style="border-bottom: 1px solid lightgray;">
       <plastic-aspect-ratio class="lib-image" aspect-height="2" aspect-width="3" style="width: calc(20% - 16px); margin: 8px;">
         <img src="images/green.png" />
@@ -153,7 +167,7 @@
             </div>
           </a>
 
-          <a href="https://github.com/byuweb/byu-theme-components">
+          <a href="#[[route.prefix]]/demo">
             <iron-icon icon="cdn:open-in-browser"></iron-icon>
             <div>
               Demo
@@ -203,6 +217,10 @@
             type: String,
             notify: true,
           },
+          route: {
+            type: Object,
+            notify: true,
+          }
         }
       }
 
