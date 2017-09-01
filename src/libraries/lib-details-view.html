@@ -136,9 +136,7 @@
       active="{{showDemo}}"
       tail="{{subRoute}}"></app-route>
 
-      [[showDemo]]
-
-    <cdn-demo-popup opened="[[showDemo]]" url="http://2017-components-demo.cdn.byu.edu/"></cdn-demo-popup>
+    <cdn-demo-popup opened="[[showDemo]]" on-demo-closed="_demoClosed" url="http://2017-components-demo.cdn.byu.edu/"></cdn-demo-popup>
 
     <div class="header" style="border-bottom: 1px solid lightgray;">
       <plastic-aspect-ratio class="lib-image" aspect-height="2" aspect-width="3" style="width: calc(20% - 16px); margin: 8px;">
@@ -227,6 +225,10 @@
       _readmeUrl(lib) {
         let src = lib.source.replace('github:', '');
         return `https://raw.githubusercontent.com/${src}/master/README.md`
+      }
+
+      _demoClosed(event) {
+        this.set('route.path', '');
       }
     }
 

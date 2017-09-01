@@ -23,7 +23,7 @@
 <dom-module id="cdn-demo-popup">
   <template>
     <style include="shared-styles">
-      :host {
+       :host {
         /* display: block;
         background: white;
         color: black;
@@ -33,33 +33,73 @@
 
       paper-dialog {
         --paper-dialog: {
-        /* height: 100vh; */
-        width: 60vw;
-        box-sizing: border-box;
+          height: calc(100vh - 100px);
+          width: calc(100vw - 100px);
+          display: flex;
+          flex-direction: column;
         }
       }
 
-      .frame-holder {
-        height: 100%;
-        box-sizing: border-box;
+      @media (max-width: 1024px) {
+        paper-dialog {
+          /* --paper-dialog: {
+          height: 100vh;
+          width: 100vw;
+          display: flex;
+          flex-direction: column; */
+          /* } */
+          max-height: 100vh;
+          max-width: 100vw;
+        }
       }
 
       iframe {
         width: 100%;
-        height: 100%;
+        /* height: 100%; */
         box-sizing: border-box;
         border: none;
+        flex-grow: 1;
+        padding: 0;
+        margin: 0;
+      }
+
+      .header {
+        padding: 0 16px;
+        margin: 0;
+        display: flex;
+        flex-direction: row;
+        box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
+        position: relative;
+        z-index: 10000;
+        align-items: center;
+      }
+
+      .header h1 {
+        flex-grow: 1;
+      }
+
+      a {
+        text-decoration: none;
+      }
+      a paper-button,
+      a:active paper-button,
+      a:visited paper-button {
+        text-decoration: none;
+        color: #000;
       }
 
     </style>
     <paper-dialog modal opened="{{opened}}">
-      <div class="frame-holder">
+      <!-- <div class="frame-holder"> -->
+      <div class="header">
+        <h1>Demo</h1>
+        <a href="[[url]]" target="_blank" tabindex="-1">
+          <paper-button>Open in new window</paper-button>
+        </a>
+          <paper-button on-tap="_close">Close</paper-button>
+      </div>
       <iframe id="frame" src="{{loadingPage}}"></iframe>
-      </div>
-      <div class="buttons">
-        <paper-button>Open in new window</paper-button>
-        <paper-button>Close</paper-button>
-      </div>
+      <!-- </div> -->
     </paper-dialog>
   </template>
 
@@ -76,7 +116,6 @@
           },
           opened: {
             type: Boolean,
-            value: false,
             notify: true,
             observer: '_setupIframeSrc'
           }
@@ -86,14 +125,20 @@
       _setupIframeSrc(value) {
         this.$.frame.src = this.loadingPage;
         if (value) {
-          setTimeout(() => {
+          // setTimeout(() => {
+          requestAnimationFrame(() => {
             this.$.frame.src = this.url;
-          }, 100);
+          });
+          // }, 200);
         }
       }
 
+      _close() {
+        this.dispatchEvent(new CustomEvent('demo-closed', {detail: {}}));
+      }
+
       get loadingPage() {
-        return `data:text/html,<div style="margin: auto">${CdnDemoPopup.loadingImage}</div>`
+        return `data:text/html,<div style="width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: space-around;">${CdnDemoPopup.loadingImage}</div>`
       }
     }
 
