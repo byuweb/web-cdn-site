@@ -29,15 +29,13 @@
       if (loadingPromise) {
         return loadingPromise;
       }
-      console.log('loading manifest');
       let aj = document.createElement('iron-request');
       loadingPromise = aj.send({
-        url: 'https://dev.cdn.byu.edu/manifest.json',
+        url: 'https://beta.cdn.byu.edu/manifest.json',
         handleAs: 'json',
       }).then(() => {
         let resp = aj.response;
         Object.keys(resp.libraries).forEach(id => normalizeLib(id, resp.libraries[id]))
-        console.log('loaded manifest', resp);
         loadingPromise = Promise.resolve(resp);
         return resp;
       });
@@ -52,6 +50,7 @@
         name: 'Web Community',
       };
       lib.maintainers = randomArray(FAKE_MAINTAINERS, 1, 3);
+      lib.image = 'images/gear.svg';
 
       return lib;
     }

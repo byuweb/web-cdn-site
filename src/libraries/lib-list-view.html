@@ -16,6 +16,7 @@
   -->
 
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../shared-styles.html">
 
 <link rel="import" href="cdn-library-card.html">
@@ -46,6 +47,8 @@
 
     <h1>CDN Libraries</h1>
 
+    <paper-input placeholder="Search" label="Search Libraries" value="{{searchQuery}}"></paper-input>
+
     <div class="libraries">
       <dom-repeat items="[[libraries]]">
         <template>
@@ -69,7 +72,6 @@
         return {
         }
       }
-
     }
 
     window.customElements.define(LibsListView.is, LibsListView);

@@ -158,7 +158,7 @@
 
     <div class="header" style="border-bottom: 1px solid lightgray;">
       <plastic-aspect-ratio class="lib-image" aspect-height="2" aspect-width="3" style="width: calc(20% - 16px); margin: 8px;">
-        <img src="images/green.png" />
+        <img src$="[[library.image]]" />
       </plastic-aspect-ratio>
       <div class="top-bar">
         <h1>[[libraryId]]</h1>
@@ -169,15 +169,14 @@
       <div class="info">
         <div class="links">
           <div class="caption">Links</div>
-          <a href="https://github.com/byuweb/byu-theme-components">
-            <!-- <img src="images/github.svg" alt="Github"> -->
+          <a href="[[library.links.source]]">
             <iron-icon icon="cdn:github"></iron-icon>
             <div>
               View Source
             </div>
           </a>
 
-          <a href="https://github.com/byuweb/byu-theme-components/issues">
+          <a href="[[library.links.issues]]">
             <iron-icon icon="cdn:bug-report"></iron-icon>
             <div>
               Issue Tracker

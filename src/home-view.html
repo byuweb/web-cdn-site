@@ -136,7 +136,7 @@
         <div class="cards">
           <dom-repeat items="[[popularLibs]]">
             <template>
-              <cdn-library-card library-id="[[item.id]]" library="[[item.library]]"></cdn-library-card>
+              <cdn-library-card library-id="[[item.id]]" library="[[item]]"></cdn-library-card>
             </template>
           </dom-repeat>
         </div>
@@ -163,6 +163,7 @@
       }
 
       _randomLibs(libs) {
+        console.log('libs', libs);
         return libs.slice(0, 3);
       }
     }
