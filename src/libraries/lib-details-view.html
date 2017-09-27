@@ -28,6 +28,8 @@
 <link rel="import" href="../icons.html">
 <link rel="import" href="demo-popup.html">
 
+<link rel="import" href="../feature-flags.html">
+
 
 <dom-module id="cdn-lib-details-view">
   <template>
@@ -66,7 +68,7 @@
         padding: 8px 16px;
       }
 
-      .readme [slot="markdown-html"] > h1:first-child {
+      .readme [slot="markdown-html"]>h1:first-child {
         display: none;
       }
 
@@ -90,10 +92,11 @@
       }
 
       .info>* {
-        box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
-        border-radius: 5px;
+        /* box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75); */
+        /* border-radius: 5px; */
         margin-bottom: 1em;
-        padding: 8px;
+        /* padding: 8px; */
+        border: 1px solid #002e5d;
       }
 
       .links {
@@ -122,19 +125,34 @@
 
       .info .caption {
         font-size: 1.25em;
-        font-weight: bold;
-        margin-bottom: 8px;
+        /* font-weight: bold; */
+        background-color: #002e5d;
+        color: white;
+      }
+
+      .info>*>* {
+        padding: 8px;
+      }
+
+      .maintainer {
+        display: block;
+        color: black;
+        text-decoration: none;
+      }
+
+      .maintainer:hover {
+        background-color: lightgray;
+      }
+
+      .maintainer .organization {
+        font-size: 0.85em;
+        font-style: italic;
       }
     </style>
 
     <cdn-library-loader library-id="[[libraryId]]" library="{{library}}"></cdn-library-loader>
 
-    <app-route
-      route="{{route}}"
-      pattern="/demo"
-      data="{{routeData}}"
-      active="{{showDemo}}"
-      tail="{{subRoute}}"></app-route>
+    <app-route route="{{route}}" pattern="/demo" data="{{routeData}}" active="{{showDemo}}" tail="{{subRoute}}"></app-route>
 
     <cdn-demo-popup opened="[[showDemo]]" on-demo-closed="_demoClosed" url="http://2017-components-demo.cdn.byu.edu/"></cdn-demo-popup>
 
@@ -150,6 +168,7 @@
     <div class="wrapper">
       <div class="info">
         <div class="links">
+          <div class="caption">Links</div>
           <a href="https://github.com/byuweb/byu-theme-components">
             <!-- <img src="images/github.svg" alt="Github"> -->
             <iron-icon icon="cdn:github"></iron-icon>
@@ -164,34 +183,45 @@
               Issue Tracker
             </div>
           </a>
-
-          <a href="#[[route.prefix]]/demo">
-            <iron-icon icon="cdn:open-in-browser"></iron-icon>
-            <div>
-              Demo
-            </div>
-          </a>
-        </div>
-
-        <div class="sponsor">
-          <div class="caption">Sponsor</div>
-          <div>[[library.sponsor.name]]</div>
-        </div>
-        <div class="maintainers">
-          <div class="caption">Maintainers</div>
-          <dom-repeat items="[[library.maintainers]]">
+          <dom-if if="[[featureFlags.demo]]">
             <template>
-              <div class="maintainer">
-                <div class="name">
-                  <a href$="https://github.com/[[item.github]]">[[item.name]]</a>
+              <a href="#[[route.prefix]]/demo">
+                <iron-icon icon="cdn:open-in-browser"></iron-icon>
+                <div>
+                  Demo
                 </div>
-                <div class="organization">
-                  [[item.organization]]
-                </div>
-              </div>
+              </a>
             </template>
-          </dom-repeat>
+          </dom-if>
         </div>
+
+        <dom-if if="[[featureFlags.showSponsor]]">
+          <template>
+            <div class="sponsor">
+              <div class="caption">Sponsor</div>
+              <div>[[library.sponsor.name]]</div>
+            </div>
+          </template>
+        </dom-if>
+        <dom-if if="[[featureFlags.showMaintainers]]">
+          <template>
+            <div class="maintainers">
+              <div class="caption">Maintainers</div>
+              <dom-repeat items="[[library.maintainers]]">
+                <template>
+                  <a class="maintainer" href$="https://github.com/[[item.github]]">
+                    <div class="name">
+                      [[item.name]]
+                    </div>
+                    <div class="organization">
+                      [[item.organization]]
+                    </div>
+                  </a>
+                </template>
+              </dom-repeat>
+            </div>
+          </template>
+        </dom-if>
       </div>
       <div class="readme">
         <iron-ajax auto url="[[_readmeUrl(library)]]" handle-as="text" last-response="{{componentReadme}}"></iron-ajax>
@@ -204,7 +234,7 @@
   </template>
 
   <script>
-    class LibDetailsView extends Polymer.Element {
+    class LibDetailsView extends CDN.FeatureFlags(Polymer.Element) {
       static get is() {
         return 'cdn-lib-details-view';
       }

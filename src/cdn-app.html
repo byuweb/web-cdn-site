@@ -175,6 +175,7 @@
           .forEach(each => {
             each.classList.toggle('selected', each.getAttribute('name') === page)
           });
+          window.scrollTo(0, 0);
       }
 
       _showPage404() {

@@ -17,6 +17,7 @@
 
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="Polymer Starter Kit">
@@ -30,7 +31,6 @@
   <!-- See https://goo.gl/qRE0vM -->
   <meta name="theme-color" content="#002E5D">
 
-  <!--<base href="/">-->
 
   <style>
     body {
@@ -42,7 +42,7 @@
   </style>
 
   <script>
-    (function () {
+    (function setupPathMatching() {
       let rootPath = '/';
       const CDN_PATH_REGEX = /(?:(?:\w+\.)?cdn.byu.edu)(\/.*?\/(?:.*?\/|experimental\/.*?\/))/;
 
@@ -50,16 +50,14 @@
       if (match) {
         rootPath = match[1];
       }
-      window.Polymer = {rootPath: rootPath};
+      window.Polymer = { rootPath: rootPath };
 
       if (!window.location.hash) {
         window.location.hash = '/home';
       }
+    })();
 
-//      let base = document.createElement('base');
-//      base.href = rootPath;
-//      document.head.appendChild(base);
-
+    (function loadServiceWorker() {
       // Load and register pre-caching Service Worker
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {
@@ -69,9 +67,18 @@
         });
       }
     })();
+
+    (function configureCdn() {
+      window.CDN = window.CDN || {};
+      window.CDN.featureFlags = {
+        showMaintainers: false,
+        showSponsor: false,
+        demo: false
+      };
+    })();
   </script>
 
-  <link type="text/css" rel="stylesheet" href="//cloud.typography.com/75214/6517752/css/fonts.css" media="all"/>
+  <link type="text/css" rel="stylesheet" href="//cloud.typography.com/75214/6517752/css/fonts.css" media="all" />
 
   <!--<script src="bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>-->
 
@@ -81,10 +88,12 @@
   <link rel="import" href="src/cdn-app.html">
 
 </head>
+
 <body>
-<cdn-app></cdn-app>
-<noscript>
-  Please enable JavaScript to view this website.
-</noscript>
+  <cdn-app></cdn-app>
+  <noscript>
+    Please enable JavaScript to view this website.
+  </noscript>
 </body>
+
 </html>

@@ -17,35 +17,16 @@
 
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 
-<!-- shared styles for all views -->
-<dom-module id="shared-styles">
-  <template>
-    <style>
+<script>
+  if (!window.CDN) {
+  window.CDN = {};
+}
 
-      h1, h2, h3, h4, h5, h6 {
-        font-family: "Vitesse A", "Vitesse B", Georgia, serif;
-        color: #002E5D;
-      }
-
-      :root {
-        --view-root: {
-          max-width: 1200px;
-          width: 100vw;
-          padding: 8px;
-          box-sizing: border-box;
-          margin: 0 auto;
-        };
-        font-family: Gotham A,Gotham B,Helvetica,sans-serif;
-      }
-
-      dom-repeat {
-        display: none;
-      }
-
-      dom-if {
-        display: none;
-      }
-
-    </style>
-  </template>
-</dom-module>
+CDN.FeatureFlags = Polymer.dedupingMixin((base) =>
+  class extends base {
+    get featureFlags() {
+      return window.CDN.featureFlags;
+    }
+  }
+);
+</script>
