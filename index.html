@@ -44,7 +44,7 @@
   <script>
     (function setupPathMatching() {
       let rootPath = '/';
-      const CDN_PATH_REGEX = /(?:(?:\w+\.)?cdn.byu.edu)(\/.*?\/(?:.*?\/|experimental\/.*?\/))/;
+      const CDN_PATH_REGEX = /(?:(?:\w+\.)?cdn.byu.edu)(\/.*?\/(?:(?:experimental\/.*\/)|.*?\/))/;
 
       let match = window.location.href.match(CDN_PATH_REGEX);
       if (match) {
