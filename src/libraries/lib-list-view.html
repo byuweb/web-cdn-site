@@ -16,16 +16,19 @@
   -->
 
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../shared-styles.html">
 
 <link rel="import" href="cdn-library-card.html">
 <link rel="import" href="../cdn-manifest-service.html">
 
+<link rel="import" href="../search-bar.html">
+
 <dom-module id="cdn-lib-list-view">
   <template>
     <style include="shared-styles">
-      :host {
+       :host {
         display: block;
       }
 
@@ -39,23 +42,36 @@
       .libraries {
         --cdn-library-card-width: 30%;
       }
-      .libraries > * {
+
+      .libraries>* {
         /*height: 350px;*/
+      }
+
+      .header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+
+      .header cdn-search-bar {
+        --cdn-search-height: 32px;
+        margin-left: 32px;
       }
     </style>
     <cdn-manifest-loader libraries="{{libraries}}"></cdn-manifest-loader>
 
-    <h1>CDN Libraries</h1>
+    <app-route route="{{route}}" query-params="{{queryParams}}"></app-route>
 
-    <paper-input placeholder="Search" label="Search Libraries" value="{{searchQuery}}"></paper-input>
+
+    <div class="header">
+      <h1>CDN Libraries</h1>
+      <cdn-search-bar value="{{searchText}}"></cdn-search-bar>
+    </div>
 
     <div class="libraries">
-      <dom-repeat items="[[libraries]]">
+      <dom-repeat items="[[libraries]]" filter="[[_searchFilter(searchText)]]">
         <template>
-          <cdn-library-card
-            library-id="[[item.id]]"
-            library="[[item]]"
-          ></cdn-library-card>
+          <cdn-library-card library-id="[[item.id]]" library="[[item]]"></cdn-library-card>
         </template>
       </dom-repeat>
     </div>
@@ -70,6 +86,37 @@
 
       static get properties() {
         return {
+          searchText: {
+            type: String,
+            observer: '_searchTextChanged'
+          },
+          route: {
+            type: Object
+          }
+        }
+      }
+
+      static get observers() {
+        return ['_searchQueryChanged(route.__queryParams.q)'];
+      }
+
+      _searchQueryChanged(queryParam) {
+        this.set('searchText', queryParam);
+      }
+
+      _searchTextChanged(val, old) {
+        if (val !== this.queryParams.q) {
+          this.set('route.__queryParams.q', val || null);
+        }
+      }
+      _searchFilter(searchText) {
+        if (searchText == null) {
+          return lib => true;
+        }
+        let lower = searchText.toLowerCase();
+        return lib => {
+          let {id, name, description} = lib;
+          return id.toLowerCase().includes(lower) || name.toLowerCase().includes(lower) || description.toLowerCase().includes(lower);
         }
       }
     }

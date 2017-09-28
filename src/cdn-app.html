@@ -85,7 +85,7 @@
         <a name="about" href="#/about">About</a>
         <a name="status" href="#/status">Status</a>
       </byu-menu>
-      <dom-if if="[[_showSearch(page)]]">
+      <dom-if if="[[_showSearch(page, subRoute.path)]]">
         <template>
           <byu-search slot="search" on-byu-search="search"></byu-search>
         </template>
@@ -135,16 +135,19 @@
       constructor() {
         super();
         this._navigateToLibBound = this._navigateToLib.bind(this);
+        this._searchBound = this.search.bind(this);
       }
 
       connectedCallback() {
         super.connectedCallback();
         this.addEventListener('library-selected', this._navigateToLibBound);
+        this.addEventListener('search-requested', this._searchBound, false);
       }
 
       disconnectedCallback() {
         super.disconnectedCallback();
         this.removeEventListener('library-selected', this._navigateToLibBound);
+        this.removeEventListener('search-requested', this._searchBound, false);
       }
 
       _navigateToLib(event) {
@@ -152,11 +155,13 @@
       }
 
       search(event) {
-        alert(`this will search for '${event.detail.search}'`)
+        this.set('route.__queryParams.q', event.detail.search);
+        this.set('route.path', '/libs');
       }
 
-      _showSearch(page) {
-        return page !== 'home';
+      _showSearch(page, subPath) {
+        let hidden = page === 'home' || (page === 'libs' && !subPath);
+        return !hidden;
       }
 
       _routePageChanged(page) {

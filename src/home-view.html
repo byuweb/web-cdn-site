@@ -21,6 +21,7 @@
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="libraries/cdn-library-card.html">
 <link rel="import" href="cdn-manifest-service.html">
+<link rel="import" href="search-bar.html">
 
 <link rel="import" href="shared-styles.html">
 
@@ -37,59 +38,6 @@
       #hero {
         width: 100%;
         position: relative;
-      }
-
-      .search-wrapper {
-        margin-top: 16px;
-        font-size: 32px;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-      }
-
-      .search-wrapper > * {
-        transition: background-color 0.25s, border-color 0.25s, color 0.25s;
-        background-color: rgba(266, 256, 256, 0.25);
-        border: 2px solid lightgray;
-        height: 48px;
-        box-sizing: border-box;
-        outline: none;
-      }
-
-      .search {
-        font-size: inherit;
-        border-right: none;
-        padding-left: 8px;
-        padding-right: 8px;
-        color: #002e5d;
-      }
-
-      .search:not(:focus)::placeholder {
-        color: #8e8e8e;
-        /*text-align: center;*/
-      }
-
-      .search-button {
-        margin: 0;
-        width: 48px;
-        box-sizing: border-box;
-        border-left: none;
-        color: #8e8e8e;
-        transition: background-color 0.25s, border-color 0.25s;
-      }
-
-      .search:focus, .search:focus + .search-button, .search:not(:placeholder-shown), .search:not(:placeholder-shown) + .search-button {
-        background-color: white;
-        /*border-color: #0057bb;*/
-        border-color: #002e5d;
-      }
-
-      .search:not(:placeholder-shown) + .search-button {
-        color: #002e5d;
-      }
-
-      .search-button:focus {
-        background-color: lightgray !important;
       }
 
       .main-content {
@@ -115,18 +63,17 @@
         width: 30%;
       } */
 
+      .search-wrapper {
+        margin-top: 16px;
+      }
+
     </style>
 
     <byu-hero-banner id="hero" image-source="images/eiffel-tower-plans.jpg" class="full-screen light-image">
       <span slot="headline">Web Community CDN</span>
       <div slot="intro-text">
         <div>Fast, easy, reliable static content hosting for all of BYU.</div>
-        <div class="search-wrapper">
-          <input class="search" type="search" placeholder="Search CDN"/>
-          <button class="search-button">
-            <iron-icon icon="search"></iron-icon>
-          </button>
-        </div>
+        <cdn-search-bar class="search-wrapper"></cdn-search-bar>
       </div>
     </byu-hero-banner>
 
@@ -161,9 +108,7 @@
           },
         }
       }
-
       _randomLibs(libs) {
-        console.log('libs', libs);
         return libs.slice(0, 3);
       }
     }

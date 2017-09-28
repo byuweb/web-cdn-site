@@ -24,7 +24,8 @@
     "marked-element": "PolymerElements/marked-element#^2.3.0",
     "iron-overlay-behavior": "PolymerElements/iron-overlay-behavior#^2.0.0",
     "paper-dialog": "PolymerElements/paper-dialog#^2.0.0",
-    "paper-button": "PolymerElements/paper-button#^2.0.0"
+    "paper-button": "PolymerElements/paper-button#^2.0.0",
+    "iron-input": "PolymerElements/iron-input#^2.0.1"
   },
   "resolutions": {
     "polymer": "^2.0.0"
