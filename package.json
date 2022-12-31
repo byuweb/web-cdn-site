@@ -33,6 +33,6 @@
     "eslint-plugin-html": "^2.0.0",
     "live-server": "^1.2.0",
     "make-dir-cli": "^1.0.0",
-    "polymer-cli": "^1.4.1"
+    "polymer-cli": "^1.9.11"
   }
 }
